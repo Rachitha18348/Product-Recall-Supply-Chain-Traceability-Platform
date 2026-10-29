@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home - Product Recall & Supply Chain Traceability
+{% endblock %}
+
+{% block content %}
+
+<section class="hero-section">
+
+    <div class="hero-content">
+
+        <div class="hero-badge">
+            <span></span>
+            SUPPLY CHAIN TRACEABILITY PLATFORM
+        </div>
+
+        <h1>
+            Know where your
+            <span>products</span>
+            are.
+        </h1>
+
+        <p>
+            Track products across every stage of the supply chain,
+            identify affected products, and manage recalls with
+            complete visibility.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="{{ url_for('register') }}" class="btn-primary">
+                Get Started
+            </a>
+
+            <a href="{{ url_for('login') }}" class="btn-outline">
+                Sign In
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-visual">
+
+        <div class="visual-card">
+
+            <div class="visual-header">
+                <span>Product Traceability</span>
+                <span class="live-status">● Active</span>
+            </div>
+
+            <div class="trace-line">
+
+                <div class="trace-step active">
+                    <div class="step-icon">RM</div>
+                    <span>Raw Material</span>
+                </div>
+
+                <div class="line"></div>
+
+                <div class="trace-step active">
+                    <div class="step-icon">PR</div>
+                    <span>Production</span>
+                </div>
+
+                <div class="line"></div>
+
+                <div class="trace-step active">
+                    <div class="step-icon">WH</div>
+                    <span>Warehouse</span>
+                </div>
+
+                <div class="line"></div>
+
+                <div class="trace-step">
+                    <div class="step-icon">DS</div>
+                    <span>Distributor</span>
+                </div>
+
+            </div>
+
+            <div class="visual-footer">
+                <span>Product ID</span>
+                <strong>BOT-B102-004582</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="features-section">
+
+    <div class="section-title">
+
+        <span>WHY TRACEABILITY MATTERS</span>
+
+        <h2>One platform. Complete visibility.</h2>
+
+        <p>
+            Keep important supply-chain information connected
+            from production to the final customer.
+        </p>
+
+    </div>
+
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">01</div>
+
+            <h3>Product Tracking</h3>
+
+            <p>
+                Track products through warehouses, distributors,
+                retailers and customers.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">02</div>
+
+            <h3>Defect Detection</h3>
+
+            <p>
+                Record quality issues and identify the affected
+                batch or individual product.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">03</div>
+
+            <h3>Recall Management</h3>
+
+            <p>
+                Trace affected products and manage the recall
+                process from detection to return.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="process-section">
+
+    <div class="section-title">
+
+        <span>SUPPLY CHAIN</span>
+
+        <h2>Follow the complete journey</h2>
+
+    </div>
+
+
+    <div class="process-flow">
+
+        <div class="process-item">
+            <strong>01</strong>
+            <p>Raw Materials</p>
+        </div>
+
+        <div class="process-arrow">→</div>
+
+        <div class="process-item">
+            <strong>02</strong>
+            <p>Production</p>
+        </div>
+
+        <div class="process-arrow">→</div>
+
+        <div class="process-item">
+            <strong>03</strong>
+            <p>Warehouse</p>
+        </div>
+
+        <div class="process-arrow">→</div>
+
+        <div class="process-item">
+            <strong>04</strong>
+            <p>Distributor</p>
+        </div>
+
+        <div class="process-arrow">→</div>
+
+        <div class="process-item">
+            <strong>05</strong>
+            <p>Retailer</p>
+        </div>
+
+        <div class="process-arrow">→</div>
+
+        <div class="process-item">
+            <strong>06</strong>
+            <p>Customer</p>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

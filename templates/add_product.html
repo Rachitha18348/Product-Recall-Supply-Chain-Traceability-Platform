@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Product - ProductTrace
+{% endblock %}
+
+{% block content %}
+
+<section class="module-page">
+
+    <div class="module-header">
+
+        <div>
+            <span class="module-eyebrow">PRODUCTION</span>
+
+            <h1>Add Product</h1>
+
+            <p>
+                Register an individual product under a production batch.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="form-card">
+
+        <form method="POST" class="module-form">
+
+            <div class="form-grid">
+
+                <div class="module-form-group">
+
+                    <label for="product_code">
+                        Product Code
+                    </label>
+
+                    <input
+                        type="text"
+                        id="product_code"
+                        name="product_code"
+                        placeholder="Example: BOT-B101-0001"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="module-form-group">
+
+                    <label for="batch_id">
+                        Batch ID
+                    </label>
+
+                    <input
+                        type="number"
+                        id="batch_id"
+                        name="batch_id"
+                        placeholder="Example: 1"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="module-form-group">
+
+                    <label for="manufacturing_date">
+                        Manufacturing Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="manufacturing_date"
+                        name="manufacturing_date"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <a href="{{ url_for('products') }}"
+                   class="cancel-button">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="module-button">
+                    Add Product
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

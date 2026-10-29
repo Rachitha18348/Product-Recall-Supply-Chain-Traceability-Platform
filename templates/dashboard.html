@@ -1,0 +1,668 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - ProductTrace{% endblock %}
+
+{% block css %}
+<style>
+    .dashboard-page {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 42px 28px 65px;
+        color: #172033;
+    }
+
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .dashboard-header h1 {
+        margin: 0;
+        font-size: 29px;
+        font-weight: 750;
+        letter-spacing: -0.8px;
+    }
+
+    .dashboard-header p {
+        margin: 9px 0 0;
+        color: #718096;
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    .dashboard-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #0f766e;
+        font-size: 10px;
+        font-weight: 750;
+        letter-spacing: 1.4px;
+    }
+
+    .dashboard-user-badge {
+        padding: 10px 14px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        color: #526075;
+        background: #fff;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    /* Statistic cards */
+    .dashboard-stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 28px;
+    }
+
+    .dashboard-stat {
+        display: block;
+        padding: 21px;
+        border: 1px solid #e7edf2;
+        border-radius: 11px;
+        background: #fff;
+        color: inherit;
+        text-decoration: none;
+        transition: border-color .2s, transform .2s;
+    }
+
+    .dashboard-stat:hover {
+        border-color: #8bd5c9;
+        transform: translateY(-2px);
+    }
+
+    .stat-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .stat-title {
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 550;
+    }
+
+    .stat-icon {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        background: #e9f8f5;
+        color: #0f766e;
+        font-size: 16px;
+    }
+
+    .stat-icon.blue {
+        background: #edf3ff;
+        color: #4569ad;
+    }
+
+    .stat-icon.amber {
+        background: #fff5df;
+        color: #a66a0b;
+    }
+
+    .stat-icon.red {
+        background: #fff0ee;
+        color: #bd4c40;
+    }
+
+    .stat-value {
+        display: block;
+        margin: 18px 0 6px;
+        color: #172033;
+        font-size: 29px;
+        font-weight: 750;
+        letter-spacing: -1px;
+    }
+
+    .stat-note {
+        color: #929cad;
+        font-size: 11px;
+    }
+
+    /* Common panels */
+    .dashboard-panel {
+        margin-bottom: 22px;
+        padding: 24px;
+        border: 1px solid #e7edf2;
+        border-radius: 12px;
+        background: #fff;
+    }
+
+    .panel-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 22px;
+    }
+
+    .panel-heading h2 {
+        margin: 0;
+        color: #172033;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+    .panel-heading p {
+        margin: 7px 0 0;
+        color: #8591a3;
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .dashboard-link {
+        color: #0f766e;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .dashboard-link:hover {
+        text-decoration: underline;
+    }
+
+    /* Supply chain flow */
+    .supply-flow {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .supply-stage {
+        min-width: 0;
+        padding: 17px 8px;
+        border: 1px solid #e8eef2;
+        border-radius: 9px;
+        background: #fbfdfd;
+        text-align: center;
+        text-decoration: none;
+        transition: background .2s, border-color .2s;
+    }
+
+    .supply-stage:hover {
+        border-color: #9adbd0;
+        background: #f0faf8;
+    }
+
+    .stage-icon {
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        margin: 0 auto 11px;
+        border-radius: 11px;
+        background: #e6f6f2;
+        color: #0f766e;
+        font-size: 18px;
+    }
+
+    .stage-number {
+        display: block;
+        margin-bottom: 5px;
+        color: #94a3b8;
+        font-size: 10px;
+    }
+
+    .stage-name {
+        display: block;
+        color: #334155;
+        font-size: 11px;
+        font-weight: 650;
+        line-height: 1.5;
+    }
+
+    /* Module cards */
+    .module-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .module-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 13px;
+        min-width: 0;
+        padding: 18px;
+        border: 1px solid #e7edf2;
+        border-radius: 10px;
+        background: #fff;
+        color: inherit;
+        text-decoration: none;
+        transition: border-color .2s, background .2s;
+    }
+
+    .module-card:hover {
+        border-color: #9adbd0;
+        background: #fbfefd;
+    }
+
+    .module-icon {
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        width: 39px;
+        height: 39px;
+        border-radius: 10px;
+        background: #e9f8f5;
+        color: #0f766e;
+        font-size: 17px;
+    }
+
+    .module-card h3 {
+        margin: 2px 0 6px;
+        color: #334155;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .module-card p {
+        margin: 0;
+        color: #8792a3;
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .module-arrow {
+        margin-left: auto;
+        padding-left: 4px;
+        color: #a1acba;
+        font-size: 17px;
+    }
+
+    /* Recall status */
+    .recall-panel {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 20px 22px;
+        border: 1px solid #e7edf2;
+        border-radius: 11px;
+        background: #fff;
+    }
+
+    .recall-content {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+    }
+
+    .recall-symbol {
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        width: 39px;
+        height: 39px;
+        border-radius: 10px;
+        background: #e6f6eb;
+        color: #247747;
+        font-weight: 800;
+    }
+
+    .recall-symbol.warning {
+        background: #fff2d8;
+        color: #9a640c;
+    }
+
+    .recall-content strong {
+        display: block;
+        color: #334155;
+        font-size: 12px;
+    }
+
+    .recall-content p {
+        margin: 5px 0 0;
+        color: #8792a3;
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .recall-button {
+        display: inline-block;
+        padding: 11px 15px;
+        border-radius: 7px;
+        background: #0f766e;
+        color: #fff;
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .recall-button:hover {
+        background: #115e59;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+        .dashboard-stats {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .supply-flow {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .module-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 580px) {
+        .dashboard-page {
+            padding: 28px 16px 45px;
+        }
+
+        .dashboard-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .dashboard-header h1 {
+            font-size: 25px;
+        }
+
+        .dashboard-stats {
+            gap: 10px;
+        }
+
+        .dashboard-stat {
+            padding: 15px;
+        }
+
+        .stat-title {
+            font-size: 11px;
+        }
+
+        .stat-value {
+            font-size: 25px;
+        }
+
+        .dashboard-panel {
+            padding: 17px;
+        }
+
+        .supply-flow {
+            gap: 8px;
+        }
+
+        .supply-stage {
+            padding: 13px 5px;
+        }
+
+        .stage-name {
+            font-size: 10px;
+        }
+
+        .module-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .recall-panel {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="dashboard-page">
+
+    <!-- WELCOME -->
+    <header class="dashboard-header">
+        <div>
+            <span class="dashboard-label">OVERVIEW</span>
+            <h1>Welcome to ProductTrace</h1>
+            <p>
+                Track production, monitor product quality,
+                and manage recalls from one place.
+            </p>
+        </div>
+
+        <div class="dashboard-user-badge">
+            Supply Chain Management
+        </div>
+    </header>
+
+    <!-- STATISTICS -->
+    <div class="dashboard-stats">
+
+        <a href="{{ url_for('batches') }}" class="dashboard-stat">
+            <div class="stat-heading">
+                <span class="stat-title">Production Batches</span>
+                <span class="stat-icon blue">▤</span>
+            </div>
+            <strong class="stat-value">{{ total_batches|default(0) }}</strong>
+            <span class="stat-note">Batches recorded</span>
+        </a>
+
+        <a href="{{ url_for('products') }}" class="dashboard-stat">
+            <div class="stat-heading">
+                <span class="stat-title">Total Products</span>
+                <span class="stat-icon">□</span>
+            </div>
+            <strong class="stat-value">{{ total_products|default(0) }}</strong>
+            <span class="stat-note">Products registered</span>
+        </a>
+
+        <a href="{{ url_for('defect_reports') }}" class="dashboard-stat">
+            <div class="stat-heading">
+                <span class="stat-title">Defect Reports</span>
+                <span class="stat-icon amber">⚑</span>
+            </div>
+            <strong class="stat-value">{{ defective_products|default(0) }}</strong>
+            <span class="stat-note">Reported quality issues</span>
+        </a>
+
+        <a href="{{ url_for('recalls') }}" class="dashboard-stat">
+            <div class="stat-heading">
+                <span class="stat-title">Active Recalls</span>
+                <span class="stat-icon red">!</span>
+            </div>
+            <strong class="stat-value">{{ active_recalls|default(0) }}</strong>
+            <span class="stat-note">Recalls to review</span>
+        </a>
+
+    </div>
+
+    <!-- SUPPLY CHAIN -->
+    <section class="dashboard-panel">
+
+        <div class="panel-heading">
+            <div>
+                <h2>Supply Chain Journey</h2>
+                <p>Move through the stages to access each section.</p>
+            </div>
+
+            <a href="{{ url_for('traceability') }}" class="dashboard-link">
+                Trace a product →
+            </a>
+        </div>
+
+        <div class="supply-flow">
+
+            <a href="{{ url_for('raw_materials') }}" class="supply-stage">
+                <span class="stage-icon">◈</span>
+                <span class="stage-number">STEP 01</span>
+                <span class="stage-name">Raw Materials</span>
+            </a>
+
+            <a href="{{ url_for('batches') }}" class="supply-stage">
+                <span class="stage-icon">▤</span>
+                <span class="stage-number">STEP 02</span>
+                <span class="stage-name">Production</span>
+            </a>
+
+            <a href="{{ url_for('quality_inspection') }}" class="supply-stage">
+                <span class="stage-icon">✓</span>
+                <span class="stage-number">STEP 03</span>
+                <span class="stage-name">Quality Check</span>
+            </a>
+
+            <a href="{{ url_for('warehouse') }}" class="supply-stage">
+                <span class="stage-icon">▦</span>
+                <span class="stage-number">STEP 04</span>
+                <span class="stage-name">Warehouse</span>
+            </a>
+
+            <a href="{{ url_for('distributors') }}" class="supply-stage">
+                <span class="stage-icon">⇢</span>
+                <span class="stage-number">STEP 05</span>
+                <span class="stage-name">Distributor</span>
+            </a>
+
+            <a href="{{ url_for('retailers') }}" class="supply-stage">
+                <span class="stage-icon">⌑</span>
+                <span class="stage-number">STEP 06</span>
+                <span class="stage-name">Retailer</span>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- MODULES -->
+    <section class="dashboard-panel">
+
+        <div class="panel-heading">
+            <div>
+                <h2>Project Modules</h2>
+                <p>Choose a module to manage or view its records.</p>
+            </div>
+        </div>
+
+        <div class="module-grid">
+
+            <a href="{{ url_for('raw_materials') }}" class="module-card">
+                <span class="module-icon">◈</span>
+                <div>
+                    <h3>Raw Materials</h3>
+                    <p>Manage materials and supplier details.</p>
+                </div>
+                <span class="module-arrow">›</span>
+            </a>
+
+            <a href="{{ url_for('batches') }}" class="module-card">
+                <span class="module-icon">▤</span>
+                <div>
+                    <h3>Production Batches</h3>
+                    <p>View manufacturing batch records.</p>
+                </div>
+                <span class="module-arrow">›</span>
+            </a>
+
+            <a href="{{ url_for('products') }}" class="module-card">
+                <span class="module-icon">□</span>
+                <div>
+                    <h3>Products</h3>
+                    <p>Manage individual product codes.</p>
+                </div>
+                <span class="module-arrow">›</span>
+            </a>
+
+            <a href="{{ url_for('quality_inspection') }}" class="module-card">
+                <span class="module-icon">✓</span>
+                <div>
+                    <h3>Quality Inspection</h3>
+                    <p>Record and review inspection results.</p>
+                </div>
+                <span class="module-arrow">›</span>
+            </a>
+
+            <a href="{{ url_for('defect_reports') }}" class="module-card">
+                <span class="module-icon">⚑</span>
+                <div>
+                    <h3>Defect Reports</h3>
+                    <p>Track defects in batches or products.</p>
+                </div>
+                <span class="module-arrow">›</span>
+            </a>
+
+            <a href="{{ url_for('traceability') }}" class="module-card">
+                <span class="module-icon">⌁</span>
+                <div>
+                    <h3>Product Traceability</h3>
+                    <p>Find the movement of a product or batch.</p>
+                </div>
+                <span class="module-arrow">›</span>
+            </a>
+
+            <a href="{{ url_for('warehouse') }}" class="module-card">
+                <span class="module-icon">▦</span>
+                <div>
+                    <h3>Warehouses</h3>
+                    <p>Manage storage locations.</p>
+                </div>
+                <span class="module-arrow">›</span>
+            </a>
+
+            <a href="{{ url_for('distributors') }}" class="module-card">
+                <span class="module-icon">⇢</span>
+                <div>
+                    <h3>Distributors</h3>
+                    <p>Manage distribution partners.</p>
+                </div>
+                <span class="module-arrow">›</span>
+            </a>
+
+            <a href="{{ url_for('retailers') }}" class="module-card">
+                <span class="module-icon">⌑</span>
+                <div>
+                    <h3>Retailers</h3>
+                    <p>Manage retail destination records.</p>
+                </div>
+                <span class="module-arrow">›</span>
+            </a>
+
+            <a href="{{ url_for('returned_products') }}" class="module-card">
+                <span class="module-icon">⌑</span>
+                <div>
+                    <h3>Returned Products</h3>
+                    <p>View and manage products returned during recalls.</p>
+                </div>
+                <span class="module-arrow">›</span>
+            </a>
+
+
+        </div>
+    </section>
+
+    <!-- RECALL STATUS -->
+    <section class="recall-panel">
+
+        <div class="recall-content">
+            <span class="recall-symbol {% if active_recalls|default(0)|int > 0 %}warning{% endif %}">
+                {% if active_recalls|default(0)|int > 0 %}!{% else %}✓{% endif %}
+            </span>
+
+            <div>
+                {% if active_recalls|default(0)|int > 0 %}
+                <strong>{{ active_recalls }} active recall(s)</strong>
+                <p>Review the recall records and manage returned products.</p>
+                {% else %}
+                <strong>No active recalls counted</strong>
+                <p>The dashboard currently reports no active recalls.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <a href="{{ url_for('recalls') }}" class="recall-button">
+            Manage Recalls →
+        </a>
+
+    </section>
+
+</section>
+{% endblock %}

@@ -1,0 +1,68 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="module-page">
+
+    <div class="module-header">
+        <div>
+            <span class="module-eyebrow">SUPPLY CHAIN MANAGEMENT</span>
+            <h1>Distributors</h1>
+            <p>Manage distribution partners responsible for moving products through the supply chain.</p>
+        </div>
+
+        <a href="{{ url_for('add_distributor') }}" class="module-button">
+            + Add Distributor
+        </a>
+    </div>
+
+    <div class="module-card">
+
+        <div class="table-header">
+            <h2>Distributor Directory</h2>
+        </div>
+
+        {% if distributors %}
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>DISTRIBUTOR NAME</th>
+                        <th>LOCATION</th>
+                        <th>CONTACT</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for distributor in distributors %}
+                    <tr>
+                        <td><strong>{{ distributor.name }}</strong></td>
+                        <td>{{ distributor.location or '—' }}</td>
+                        <td>{{ distributor.contact or '—' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% else %}
+        <div class="module-empty">
+            <div class="empty-symbol">↗</div>
+            <h3>No distributors added yet</h3>
+            <p>
+                Add distribution partners to organize product deliveries
+                from warehouses to retail locations.
+            </p>
+            <a href="{{ url_for('add_distributor') }}" class="module-button">
+                Add First Distributor
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
+

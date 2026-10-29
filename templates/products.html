@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}
+Products - ProductTrace
+{% endblock %}
+
+{% block content %}
+
+<section class="module-page">
+
+    <div class="module-header">
+
+        <div>
+            <span class="module-eyebrow">PRODUCTION</span>
+
+            <h1>Products</h1>
+
+            <p>
+                Manage individual products created from production batches.
+            </p>
+        </div>
+
+        <a href="{{ url_for('add_product') }}"
+           class="module-button">
+            + Add Product
+        </a>
+
+    </div>
+
+
+    <div class="module-card">
+
+        <div class="table-header">
+
+            <div>
+                <span class="module-eyebrow">
+                    PRODUCT RECORDS
+                </span>
+
+                <h2>Product List</h2>
+            </div>
+
+        </div>
+
+
+        {% if products %}
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Product Code</th>
+                        <th>Batch</th>
+                        <th>Manufacturing Date</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for product in products %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                {{ product.product_code }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ product.batch_number }}
+                        </td>
+
+                        <td>
+                            {{ product.manufacturing_date }}
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge">
+                                {{ product.status }}
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="module-empty">
+
+            <div class="empty-symbol">
+                +
+            </div>
+
+            <h3>No products yet</h3>
+
+            <p>
+                Add products and associate them with their
+                production batches.
+            </p>
+
+            <a href="{{ url_for('add_product') }}"
+               class="module-button">
+                Add Product
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

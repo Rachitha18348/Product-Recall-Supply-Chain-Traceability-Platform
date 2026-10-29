@@ -1,0 +1,77 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="module-page">
+
+    <div class="module-header">
+        <div>
+            <span class="module-eyebrow">RECALL OPERATIONS</span>
+            <h1>Returned Products</h1>
+            <p>Track products returned by distributors or retailers following a recall.</p>
+        </div>
+
+        <a href="{{ url_for('add_returned_product') }}" class="module-button">
+            + Record Return
+        </a>
+    </div>
+
+    <div class="module-card">
+
+        <div class="table-header">
+           
+            <p>Review returned items and their current condition.</p>
+        </div>
+
+        {% if returned_items %}
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>RETURN ID</th>
+                        <th>RECALL ID</th>
+                        <th>PRODUCT CODE</th>
+                        <th>RETURNED BY</th>
+                        <th>RETURN DATE</th>
+                        <th>CONDITION</th>
+                        <th>STATUS</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for item in returned_items %}
+                    <tr>
+                        <td><strong>#{{ item.id }}</strong></td>
+                        <td>#{{ item.recall_id }}</td>
+                        <td>{{ item.product_code }}</td>
+                        <td>{{ item.returned_by or '—' }}</td>
+                        <td>{{ item.return_date }}</td>
+                        <td>{{ item.condition_description or '—' }}</td>
+                        <td>
+                            <span class="status-badge">
+                                {{ item.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% else %}
+        <div class="module-empty">
+            <div class="empty-symbol">↩</div>
+            <h3>No returned products yet</h3>
+            <p>Once recalled products are received, record their product codes, condition and return details here.</p>
+            <a href="{{ url_for('add_returned_product') }}" class="module-button">
+                Record First Return
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

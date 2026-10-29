@@ -1,0 +1,73 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="module-page">
+
+    <div class="module-header">
+        <div>
+            <span class="module-eyebrow">SUPPLY CHAIN MANAGEMENT</span>
+            <h1>Add Retailer</h1>
+            <p>Register a retail outlet that receives products through your distribution network.</p>
+        </div>
+    </div>
+
+    <div class="form-card">
+
+        <form method="POST" action="{{ url_for('add_retailer') }}">
+
+            <div class="form-grid">
+
+                <div class="module-form-group">
+                    <label for="name">Retailer Name *</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter retailer or store name"
+                        required
+                    >
+                </div>
+
+                <div class="module-form-group">
+                    <label for="location">Location *</label>
+                    <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        placeholder="e.g. Nellore, Andhra Pradesh"
+                        required
+                    >
+                </div>
+
+                <div class="module-form-group">
+                    <label for="contact">Contact Number</label>
+                    <input
+                        type="tel"
+                        id="contact"
+                        name="contact"
+                        placeholder="Enter contact number"
+                    >
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ url_for('retailers') }}" class="cancel-button">
+                    Cancel
+                </a>
+
+                <button type="submit" class="module-button">
+                    Save Retailer
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

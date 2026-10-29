@@ -1,0 +1,77 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="module-page">
+
+    <div class="module-header">
+        <div>
+            <span class="module-eyebrow">PRODUCT SAFETY</span>
+            <h1>Recall Management</h1>
+            <p>Track product recalls, affected batches and individual products.</p>
+        </div>
+
+        <a href="{{ url_for('add_recall') }}" class="module-button">
+            + Initiate Recall
+        </a>
+    </div>
+
+    <div class="module-card">
+
+        <div class="table-header">
+            <h2>Recall Records</h2>
+            <p>Review recalls and monitor their current status.</p>
+        </div>
+
+        {% if recalls %}
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>RECALL ID</th>
+                        <th>TYPE</th>
+                        <th>BATCH</th>
+                        <th>PRODUCT CODE</th>
+                        <th>REASON</th>
+                        <th>RECALL DATE</th>
+                        <th>STATUS</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for recall in recalls %}
+                    <tr>
+                        <td><strong>#{{ recall.id }}</strong></td>
+                        <td>{{ recall.recall_type }}</td>
+                        <td>{{ recall.batch_number or '—' }}</td>
+                        <td>{{ recall.product_code or '—' }}</td>
+                        <td>{{ recall.reason }}</td>
+                        <td>{{ recall.recall_date }}</td>
+                        <td>
+                            <span class="status-badge">
+                                {{ recall.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% else %}
+        <div class="module-empty">
+            <div class="empty-symbol">!</div>
+            <h3>No recalls initiated yet</h3>
+            <p>When a defect requires products to be withdrawn, initiate a recall and track its progress here.</p>
+            <a href="{{ url_for('add_recall') }}" class="module-button">
+                Initiate First Recall
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

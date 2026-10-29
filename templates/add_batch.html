@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Production Batch - ProductTrace
+{% endblock %}
+
+{% block content %}
+
+<section class="module-page">
+
+    <div class="module-header">
+
+        <div>
+            <span class="module-eyebrow">PRODUCTION</span>
+
+            <h1>Add Production Batch</h1>
+
+            <p>
+                Create a production batch for manufactured products.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="form-card">
+
+        <form method="POST" class="module-form">
+
+            <div class="form-grid">
+
+                <div class="module-form-group">
+
+                    <label for="batch_number">
+                        Batch Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="batch_number"
+                        name="batch_number"
+                        placeholder="Example: B101"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="module-form-group">
+
+                    <label for="product_name">
+                        Product Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="product_name"
+                        name="product_name"
+                        placeholder="Example: Premium Mineral Water"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="module-form-group">
+
+                    <label for="production_date">
+                        Production Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="production_date"
+                        name="production_date"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="module-form-group">
+
+                    <label for="quantity">
+                        Quantity
+                    </label>
+
+                    <input
+                        type="number"
+                        id="quantity"
+                        name="quantity"
+                        min="1"
+                        placeholder="Example: 1000"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <a href="{{ url_for('batches') }}"
+                   class="cancel-button">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="module-button">
+                    Create Batch
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

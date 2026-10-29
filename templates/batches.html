@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}
+Production Batches - ProductTrace
+{% endblock %}
+
+{% block content %}
+
+<section class="module-page">
+
+    <div class="module-header">
+
+        <div>
+            <span class="module-eyebrow">PRODUCTION</span>
+
+            <h1>Production Batches</h1>
+
+            <p>
+                Manage production batches created from raw materials.
+            </p>
+        </div>
+
+        <a href="{{ url_for('add_batch') }}"
+           class="module-button">
+            + Add Production Batch
+        </a>
+
+    </div>
+
+
+    <div class="module-card">
+
+        <div class="table-header">
+
+            <div>
+                <span class="module-eyebrow">
+                    BATCH RECORDS
+                </span>
+
+                <h2>Production Batch List</h2>
+            </div>
+
+        </div>
+
+
+        {% if batches %}
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Batch Number</th>
+                        <th>Product Name</th>
+                        <th>Production Date</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for batch in batches %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                {{ batch.batch_number }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ batch.product_name }}
+                        </td>
+
+                        <td>
+                            {{ batch.production_date }}
+                        </td>
+
+                        <td>
+                            {{ batch.quantity }}
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge">
+                                {{ batch.status }}
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="module-empty">
+
+            <div class="empty-symbol">
+                +
+            </div>
+
+            <h3>No production batches yet</h3>
+
+            <p>
+                Add your first production batch to start
+                tracking products through the supply chain.
+            </p>
+
+            <a href="{{ url_for('add_batch') }}"
+               class="module-button">
+                Add Production Batch
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,89 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+Register - ProductTrace
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="auth-card">
+
+        <div class="auth-header">
+
+            <div class="auth-badge">
+                PRODUCTTRACE
+            </div>
+
+            <h1>Create your account</h1>
+
+            <p>
+                Register to manage products, traceability,
+                defects, and recalls.
+            </p>
+
+        </div>
+
+        <form method="POST" class="auth-form">
+
+            {% if error %}
+                <p class="form-error">{{ error }}</p>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="name">Full Name</label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your full name"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Create a password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="auth-button">
+                Create Account
+            </button>
+
+        </form>
+
+        <div class="auth-footer">
+            <span>Already have an account?</span>
+
+            <a href="{{ url_for('login') }}">
+                Sign in
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

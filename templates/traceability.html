@@ -1,0 +1,217 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="module-page">
+
+    <div class="module-header">
+        <div>
+            <span class="module-eyebrow">PRODUCT TRACKING</span>
+            <h1>Product Traceability</h1>
+            <p>Trace products from manufacturing through warehouses, distributors and retailers.</p>
+        </div>
+    </div>
+
+    <div class="module-card">
+
+        <div class="table-header">
+            <h2>Find a Product or Batch</h2>
+            <p>Enter a batch number or individual product code to investigate its supply chain journey.</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('traceability') }}">
+
+            <div class="form-grid">
+
+                <div class="module-form-group full-width">
+                    <label for="search_type">Trace By</label>
+                    <select id="search_type" name="search_type" required>
+                        <option value="batch"
+                            {% if search_type == 'batch' %}selected{% endif %}>
+                            Production Batch
+                        </option>
+                        <option value="product"
+                            {% if search_type == 'product' %}selected{% endif %}>
+                            Individual Product
+                        </option>
+                    </select>
+                </div>
+
+                <div class="module-form-group full-width">
+                    <label for="search_value">Batch Number or Product Code</label>
+                    <input
+                        type="text"
+                        id="search_value"
+                        name="search_value"
+                        placeholder="e.g. B102 or BOT-B102-004582"
+                        value="{{ search_value or '' }}"
+                        required
+                    >
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="module-button">
+                    Trace Product
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+    {% if error %}
+    <div class="module-card" style="margin-top: 25px;">
+        <p style="color: #B91C1C;">{{ error }}</p>
+    </div>
+    {% endif %}
+
+    {% if trace_data %}
+
+    <div class="module-card" style="margin-top: 25px;">
+
+        <div class="table-header">
+            <h2>Trace Results</h2>
+        </div>
+
+        {% if search_type == 'batch' %}
+            <p><strong>Batch Number:</strong> {{ trace_data.batch_number }}</p>
+            <p><strong>Product Name:</strong> {{ trace_data.product_name }}</p>
+            <p><strong>Production Date:</strong> {{ trace_data.production_date }}</p>
+            <p><strong>Batch Quantity:</strong> {{ trace_data.quantity }}</p>
+            <p><strong>Batch Status:</strong> {{ trace_data.status }}</p>
+        {% else %}
+            <p><strong>Product Code:</strong> {{ trace_data.product_code }}</p>
+            <p><strong>Batch Number:</strong> {{ trace_data.batch_number }}</p>
+            <p><strong>Product Name:</strong> {{ trace_data.product_name }}</p>
+            <p><strong>Manufacturing Date:</strong> {{ trace_data.manufacturing_date }}</p>
+            <p><strong>Product Status:</strong> {{ trace_data.status }}</p>
+        {% endif %}
+
+    </div>
+
+    <div class="module-card" style="margin-top: 25px;">
+
+        <div class="table-header">
+            <h2>Products in This Search</h2>
+        </div>
+
+        {% if products %}
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>PRODUCT CODE</th>
+                        <th>MANUFACTURING DATE</th>
+                        <th>STATUS</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td><strong>{{ product.product_code }}</strong></td>
+                        <td>{{ product.manufacturing_date or '—' }}</td>
+                        <td>{{ product.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="module-empty">
+            <h3>No products found</h3>
+            <p>No individual products are linked to this batch yet.</p>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <div class="module-card" style="margin-top: 25px;">
+
+        <div class="table-header">
+            <h2>Recorded Movement History</h2>
+            <p>Recorded movements show where the product has travelled.</p>
+        </div>
+
+        {% if movements %}
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>PRODUCT CODE</th>
+                        <th>FROM</th>
+                        <th>TO</th>
+                        <th>MOVEMENT DATE</th>
+                        <th>STATUS</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for movement in movements %}
+                    <tr>
+                        <td><strong>{{ movement.product_code }}</strong></td>
+                        <td>{{ movement.from_location or '—' }}</td>
+                        <td>{{ movement.to_location or '—' }}</td>
+                        <td>{{ movement.movement_date }}</td>
+                        <td>{{ movement.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="module-empty">
+            <h3>No movement history recorded</h3>
+            <p>Movement records will appear here once product movements are stored in the database.</p>
+        </div>
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+    <div class="module-card" style="margin-top: 25px;">
+
+        <div class="table-header">
+            <h2>How Traceability Works</h2>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>STAGE</th>
+                        <th>INFORMATION TRACKED</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td><strong>Manufacturing</strong></td>
+                        <td>Batch number, product code and manufacturing date</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Warehouse</strong></td>
+                        <td>Product storage and dispatch locations</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Distribution</strong></td>
+                        <td>Movement between supply chain locations</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Retail</strong></td>
+                        <td>Retail destination and delivery status</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

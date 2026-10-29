@@ -1,0 +1,118 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="module-page">
+
+    <div class="module-header">
+        <div>
+            <span class="module-eyebrow">QUALITY & SAFETY</span>
+            <h1>Report a Defect</h1>
+            <p>Record a product issue for investigation and potential recall.</p>
+        </div>
+    </div>
+
+    <div class="form-card">
+
+        <form method="POST" action="{{ url_for('add_defect_report') }}">
+
+            <div class="form-grid">
+
+                <div class="module-form-group">
+                    <label for="report_target">Report Against</label>
+                    <select id="report_target" name="report_target" required>
+                        <option value="batch">Production Batch</option>
+                        <option value="product">Individual Product</option>
+                    </select>
+                </div>
+
+                <div class="module-form-group">
+                    <label for="reported_by">Reported By</label>
+                    <input
+                        type="text"
+                        id="reported_by"
+                        name="reported_by"
+                        placeholder="Enter reporter name"
+                        required
+                    >
+                </div>
+
+                <div class="module-form-group">
+                    <label for="batch_id">Production Batch</label>
+                    <select id="batch_id" name="batch_id">
+                        <option value="">Select a batch</option>
+                        {% for batch in batches %}
+                        <option value="{{ batch.id }}">
+                            {{ batch.batch_number }} — {{ batch.product_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="module-form-group">
+                    <label for="product_id">Individual Product</label>
+                    <select id="product_id" name="product_id">
+                        <option value="">Select a product</option>
+                        {% for product in products %}
+                        <option value="{{ product.id }}">
+                            {{ product.product_code }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="module-form-group">
+                    <label for="defect_type">Defect Type</label>
+                    <select id="defect_type" name="defect_type" required>
+                        <option value="">Select defect type</option>
+                        <option value="Contamination">Contamination</option>
+                        <option value="Packaging Defect">Packaging Defect</option>
+                        <option value="Manufacturing Defect">Manufacturing Defect</option>
+                        <option value="Quality Failure">Quality Failure</option>
+                        <option value="Damage During Transport">Damage During Transport</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="module-form-group">
+                    <label for="reported_date">Reported Date</label>
+                    <input
+                        type="date"
+                        id="reported_date"
+                        name="reported_date"
+                        required
+                    >
+                </div>
+
+                <div class="module-form-group full-width">
+                    <label for="description">Defect Description</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="4"
+                        placeholder="Describe the defect, where it was identified, and any relevant details..."
+                        required
+                    ></textarea>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ url_for('defect_reports') }}" class="cancel-button">
+                    Cancel
+                </a>
+
+                <button type="submit" class="module-button">
+                    Submit Defect Report
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

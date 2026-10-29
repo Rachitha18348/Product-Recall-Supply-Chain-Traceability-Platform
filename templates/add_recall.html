@@ -1,0 +1,99 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="module-page">
+
+    <div class="module-header">
+        <div>
+            <span class="module-eyebrow">PRODUCT SAFETY</span>
+            <h1>Initiate Product Recall</h1>
+            <p>Identify affected products and record the reason for a recall.</p>
+        </div>
+    </div>
+
+    <div class="form-card">
+
+        {% if error %}
+        <p style="color: #B91C1C; margin-bottom: 20px;">
+            {{ error }}
+        </p>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('add_recall') }}">
+
+            <div class="form-grid">
+
+                <div class="module-form-group">
+                    <label for="recall_type">Recall Type</label>
+                    <select id="recall_type" name="recall_type" required>
+                        <option value="Batch">Entire Production Batch</option>
+                        <option value="Product">Individual Product</option>
+                    </select>
+                </div>
+
+                <div class="module-form-group">
+                    <label for="recall_date">Recall Date</label>
+                    <input
+                        type="date"
+                        id="recall_date"
+                        name="recall_date"
+                        required
+                    >
+                </div>
+
+                <div class="module-form-group">
+                    <label for="batch_id">Production Batch</label>
+                    <select id="batch_id" name="batch_id">
+                        <option value="">Select a batch</option>
+                        {% for batch in batches %}
+                        <option value="{{ batch.id }}">
+                            {{ batch.batch_number }} — {{ batch.product_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="module-form-group">
+                    <label for="product_id">Individual Product</label>
+                    <select id="product_id" name="product_id">
+                        <option value="">Select a product</option>
+                        {% for product in products %}
+                        <option value="{{ product.id }}">
+                            {{ product.product_code }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="module-form-group full-width">
+                    <label for="reason">Reason for Recall</label>
+                    <textarea
+                        id="reason"
+                        name="reason"
+                        rows="4"
+                        placeholder="Explain why the batch or product needs to be recalled..."
+                        required
+                    ></textarea>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ url_for('recalls') }}" class="cancel-button">
+                    Cancel
+                </a>
+
+                <button type="submit" class="module-button">
+                    Initiate Recall
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

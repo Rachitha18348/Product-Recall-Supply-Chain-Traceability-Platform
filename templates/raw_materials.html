@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}
+Raw Materials - ProductTrace
+{% endblock %}
+
+{% block content %}
+
+<section class="module-page">
+
+    <div class="module-header">
+
+        <div>
+            <span class="module-eyebrow">SUPPLY CHAIN</span>
+
+            <h1>Raw Materials</h1>
+
+            <p>
+                Manage the raw materials received for production.
+            </p>
+        </div>
+
+        <a href="{{ url_for('add_raw_material') }}"
+           class="module-button">
+            + Add Raw Material
+        </a>
+
+    </div>
+
+
+    <div class="module-card">
+
+        <div class="table-header">
+
+            <div>
+                <span class="module-eyebrow">MATERIAL RECORDS</span>
+
+                <h2>Raw Material Inventory</h2>
+            </div>
+
+        </div>
+
+
+        {% if materials %}
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Name</th>
+                        <th>Supplier</th>
+                        <th>Quantity</th>
+                        <th>Received Date</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for material in materials %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                {{ material.name }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ material.supplier_name or "-" }}
+                        </td>
+
+                        <td>
+                            {{ material.quantity or "-" }}
+                            {{ material.unit or "" }}
+                        </td>
+
+                        <td>
+                            {{ material.received_date or "-" }}
+                        </td>
+
+                        <td>
+
+                            <span class="status-badge">
+                                {{ material.status }}
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="module-empty">
+
+            <div class="empty-symbol">
+                +
+            </div>
+
+            <h3>No raw materials yet</h3>
+
+            <p>
+                Add your first raw material to start building
+                the supply-chain records.
+            </p>
+
+            <a href="{{ url_for('add_raw_material') }}"
+               class="module-button">
+                Add Raw Material
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

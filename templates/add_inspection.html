@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Inspection - ProductTrace
+{% endblock %}
+
+{% block content %}
+
+<section class="module-page">
+
+    <div class="module-header">
+
+        <div>
+            <span class="module-eyebrow">QUALITY CONTROL</span>
+
+            <h1>Add Quality Inspection</h1>
+
+            <p>
+                Record the quality inspection result for a production batch.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="form-card">
+
+        <form method="POST" class="module-form">
+
+            <div class="form-grid">
+
+                <div class="module-form-group">
+                    <label for="batch_id">Batch ID</label>
+
+                    <input
+                        type="number"
+                        id="batch_id"
+                        name="batch_id"
+                        placeholder="Enter production batch ID"
+                        min="1"
+                        required
+                    >
+                </div>
+
+                <div class="module-form-group">
+                    <label for="inspection_date">Inspection Date</label>
+
+                    <input
+                        type="date"
+                        id="inspection_date"
+                        name="inspection_date"
+                        required
+                    >
+                </div>
+
+                <div class="module-form-group">
+                    <label for="inspector_name">Inspector Name</label>
+
+                    <input
+                        type="text"
+                        id="inspector_name"
+                        name="inspector_name"
+                        placeholder="Enter inspector name"
+                    >
+                </div>
+
+                <div class="module-form-group">
+                    <label for="result">Inspection Result</label>
+
+                    <select
+                        id="result"
+                        name="result"
+                        required
+                    >
+                        <option value="">Select result</option>
+                        <option value="Passed">Passed</option>
+                        <option value="Failed">Failed</option>
+                    </select>
+                </div>
+
+                <div class="module-form-group full-width">
+                    <label for="remarks">Remarks</label>
+
+                    <textarea
+                        id="remarks"
+                        name="remarks"
+                        rows="4"
+                        placeholder="Describe the inspection findings"
+                    ></textarea>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+
+                <a href="{{ url_for('quality_inspection') }}"
+                   class="cancel-button">
+                    Cancel
+                </a>
+
+                <button type="submit" class="module-button">
+                    Save Inspection
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

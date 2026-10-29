@@ -1,0 +1,82 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="module-page">
+
+    <div class="module-header">
+        <div>
+            <span class="module-eyebrow">SUPPLY CHAIN MANAGEMENT</span>
+            <h1>Add Warehouse</h1>
+            <p>Register a warehouse location for product storage and tracking.</p>
+        </div>
+    </div>
+
+    <div class="form-card">
+
+        <form method="POST" action="{{ url_for('add_warehouse') }}">
+
+            <div class="form-grid">
+
+                <div class="module-form-group">
+                    <label for="name">Warehouse Name *</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="e.g. Chennai Central Warehouse"
+                        required
+                    >
+                </div>
+
+                <div class="module-form-group">
+                    <label for="location">Location *</label>
+                    <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        placeholder="e.g. Chennai, Tamil Nadu"
+                        required
+                    >
+                </div>
+
+                <div class="module-form-group">
+                    <label for="manager_name">Manager Name</label>
+                    <input
+                        type="text"
+                        id="manager_name"
+                        name="manager_name"
+                        placeholder="Enter manager name"
+                    >
+                </div>
+
+                <div class="module-form-group">
+                    <label for="contact">Contact Number</label>
+                    <input
+                        type="tel"
+                        id="contact"
+                        name="contact"
+                        placeholder="Enter contact number"
+                    >
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ url_for('warehouse') }}" class="cancel-button">
+                    Cancel
+                </a>
+                <button type="submit" class="module-button">
+                    Save Warehouse
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

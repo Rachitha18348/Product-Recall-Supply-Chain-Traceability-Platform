@@ -1,0 +1,68 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="module-page">
+
+    <div class="module-header">
+        <div>
+            <span class="module-eyebrow">SUPPLY CHAIN MANAGEMENT</span>
+            <h1>Retailers</h1>
+            <p>Manage retail outlets that receive products from distributors.</p>
+        </div>
+
+        <a href="{{ url_for('add_retailer') }}" class="module-button">
+            + Add Retailer
+        </a>
+    </div>
+
+    <div class="module-card">
+
+        <div class="table-header">
+            <h2>Retailer Directory</h2>
+        </div>
+
+        {% if retailers %}
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>RETAILER NAME</th>
+                        <th>LOCATION</th>
+                        <th>CONTACT</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for retailer in retailers %}
+                    <tr>
+                        <td><strong>{{ retailer.name }}</strong></td>
+                        <td>{{ retailer.location or '—' }}</td>
+                        <td>{{ retailer.contact or '—' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% else %}
+        <div class="module-empty">
+            <div class="empty-symbol">⌂</div>
+            <h3>No retailers added yet</h3>
+            <p>
+                Add retail outlets to organize product distribution
+                and improve supply chain traceability.
+            </p>
+            <a href="{{ url_for('add_retailer') }}" class="module-button">
+                Add First Retailer
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
+
